@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
 use http\Env\Response;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -55,6 +56,7 @@ class UserController extends Controller
 
         } catch (\Throwable $th)
         {
+            app()[ExceptionHandler::class]->report($th);
             return response()->json([
                 'message' => 'Something is wrong.try again later',
             ], 500);
