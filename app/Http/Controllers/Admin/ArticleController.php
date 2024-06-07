@@ -13,9 +13,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::with(['user' => function ($quary) {
-            $quary->select(['id', 'first_name']);
-        }])->get();
+        $articles = Article::with('user')->get();
+
 
         return response()->json([
            'data'=>$articles
