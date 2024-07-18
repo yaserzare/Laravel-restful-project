@@ -58,15 +58,10 @@ class UserController extends Controller
         } catch (\Throwable $th)
         {
             app()[ExceptionHandler::class]->report($th);
-            return response()->json([
-                'message' => 'Something is wrong.try again later',
-            ], 500);
+            return $this->apiResponse('Something is wrong.try again later', 500);
         }
 
-        return response()->json([
-            'message' => 'User created successfully.',
-            'data' => $user
-        ]);
+        return $this->apiResponse('User created successfully.', $user);
 
     }
 
@@ -145,4 +140,16 @@ class UserController extends Controller
         ]);
 
     }
+
+    private function apiResponse($message = null, $data = null, $status = 200)
+    {
+        $body = [];
+        !is_null($message) && $body['message'] = $message;
+        !is_null($data) && $body['data'] = $data;
+
+        return response()->json($body, $status);
+
+    }
+
+
 }
