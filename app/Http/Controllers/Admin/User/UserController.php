@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\User\UserDetailsApiResource;
 use App\Http\Resources\Admin\User\UserListApiResource;
+use App\RestfulApi\ApiResponse;
 use http\Env\Response;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Request;
@@ -61,7 +62,16 @@ class UserController extends Controller
             return $this->apiResponse('Something is wrong.try again later', 500);
         }
 
-        return $this->apiResponse('User created successfully.', $user);
+
+        $response = new ApiResponse();
+        $response->setMessage('User created successfully.');
+        $response->setData($user);
+        $response->setAppends([
+            'fullname'=>'123'
+        ]);
+        return $response->response();
+
+
 
     }
 
